@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crazy Button</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-image: url('https://source.unsplash.com/1600x900/?nature,water');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 250px;
+            padding: 10px;
+            border: 1px solid #0a0054;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        #sendButton {
+            background-color: #12167d;
+            color: rgb(255, 255, 255);
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome</h1>
+        <form action="#">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required autofocus >
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit" id="sendButton">Send</button>
+        </form>
+    </div>
+    <script>
+        const button = document.getElementById('sendButton');
+        const distanceThreshold = 100; // المسافة التي يجب أن يبتعد فيها الزر عن المؤشر
+
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            const buttonRect = button.getBoundingClientRect();
+            const buttonX = buttonRect.left + buttonRect.width / 2;
+            const buttonY = buttonRect.top + buttonRect.height / 2;
+
+            const distanceX = mouseX - buttonX;
+            const distanceY = mouseY - buttonY;
+            const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+
+            if (distance < distanceThreshold) {
+                const offsetX = (distanceX / distance) * distanceThreshold;
+                const offsetY = (distanceY / distance) * distanceThreshold;
+                button.style.transform = `translate(${-offsetX}px, ${-offsetY}px)`;
+            } else {
+                button.style.transform = 'translate(0, 0)';
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            button.style.transform = 'translate(0, 0)';
+        });
+    </script>
+</body>
+</html>
